@@ -30,9 +30,9 @@ def plot_topics(model, feature_names, n_top_words, title):
 
 
 # Load our cleaned data
-data_dir = 'data'
-input_file = 'processed_small_example.txt'
-df = pd.read_csv(os.path.join(data_dir, input_file), sep='|', on_bad_lines='warn')
+data_dir = '../data'
+input_file = 'processed_reddit_data'
+df = pd.read_csv(os.path.join(data_dir, input_file), sep='*', on_bad_lines='warn')
 tweets = df['processed_strings'].tolist()
 
 #vectorize the data

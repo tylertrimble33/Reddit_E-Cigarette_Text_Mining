@@ -4,9 +4,9 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # Load the cleaned data
-data_dir = 'data'
-input_file = 'processed_small_example.txt'
-df = pd.read_csv(os.path.join(data_dir, input_file), sep='|', on_bad_lines='warn')
+data_dir = '../data'
+input_file = 'processed_sample_data'
+df = pd.read_csv(os.path.join(data_dir, input_file), sep='*', on_bad_lines='warn')
 
 # We are going to convert our documents (tweet) into a vector
 # So, we need either a list of strings (each string is a tweet)

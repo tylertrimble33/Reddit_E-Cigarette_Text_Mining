@@ -2,9 +2,9 @@ import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 # download the vader lexicon (need to do once)
-#nltk.download('vader_lexicon')
+nltk.download('vader_lexicon')
 # download punkt for the tokenizer (need to do once)
-#nltk.download('punkt')
+nltk.download('punkt')
 
 # Create an instance of the SentimentIntensityAnalyzer
 sentiment_analyzer = SentimentIntensityAnalyzer()

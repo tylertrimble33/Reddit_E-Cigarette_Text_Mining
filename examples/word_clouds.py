@@ -8,8 +8,8 @@ import os
 import re
 
 # load the data
-data_dir = 'data'
-input_file = 'labeled_processed_small_example.txt'
+data_dir = '../data'
+input_file = 'labeled_processed_sample_data'
 df = pd.read_csv(os.path.join(data_dir, input_file), sep='|', on_bad_lines='warn')
 tweets = df['processed_strings'].tolist()
 numClusters = max(df['cluster'])+1

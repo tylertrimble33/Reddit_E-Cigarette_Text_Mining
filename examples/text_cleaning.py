@@ -48,11 +48,11 @@ def remove_stop_words(df):
 
 
 # Input parameters
-data_dir = 'data'
+data_dir = '../data'
 input_file = 'small_example.txt'
 
 ## Load the data
-df = pd.read_csv(os.path.join(data_dir, input_file), sep='|', on_bad_lines='warn', encoding='ISO-8859-1')
+df = pd.read_csv(os.path.join(data_dir, input_file), sep='*', on_bad_lines='warn', encoding='ISO-8859-1')
 # Check the shape of the dataframe. This will indicate the number of samples and the number of columns
 print ("data loaded df.shape = ", df.shape)
 

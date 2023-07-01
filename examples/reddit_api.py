@@ -2,11 +2,13 @@ import praw
 from praw.models import MoreComments
 import pandas as pd
 
+
 # Gets the top post IDs
 def get_post_ids(subreddit_name, post_limit=None):
     posts = reddit.subreddit(subreddit_name).top(limit=post_limit)
     post_ids = [post.id for post in posts]
     return post_ids
+
 
 # for getting the top level comments
 #   This therefore won't grab whole discussions of comments.
@@ -40,6 +42,7 @@ def get_top_level_comments(submission, number_comments_to_get=500, replace_more_
 
     return comments
 
+
 # You may want to get all the comments in a thread rather than just the top-level comments
 #   e.g. all the replies and replies of replies.
 # The following code will retrieve all comments using a breadth-first-search of the comment
@@ -58,47 +61,53 @@ def get_all_level_comments(submission, replace_more_limit=None):
 
 
 # instantiate an instance of the Reddit API
-reddit = praw.Reddit(client_id='YOUR CLIENT ID',
-                     client_secret='YOUR CLIENT SECRET',
-                     user_agent='YOUR APP NAME')
+reddit = praw.Reddit(client_id='npuJbFPra4hW7GQAryG2EQ',
+                     client_secret='OIT2DPMrffjrLorJgMwmwcrWXFnm8A',
+                     user_agent='Data Mining Project')
 
 print("API instance initialized")
 
 # Hardcoded subreddit list - TODO - add more subreddits to this list. Find more and better ones
-subreddit_list = ['electronic_cigarette']
+subreddit_list = ['e_cigarette']
+for subreddit in subreddit_list:
+    for submission in reddit.subreddit(subreddit).top(limit=1):
+        print("Title: " + str(submission.title))
+        print("ID: " + str(submission.id))
+        print("Submission: " + str(submission))
+        print("Title: " + str(submission.comments.list))
 
-# grab post ids in the specified subreddits
-# TODO - you probably want to increase the post_limit from 10. Do you need any limit?
-post_ids =[]
-for subreddit_name in subreddit_list:
-    post_ids.extend(get_post_ids(subreddit_name, post_limit=10))
-print("got post ids")
-
-# grab titles of the post-ids
-post_titles = []
-for id in post_ids:
-    submission = reddit.submission(id=id)
-    post_titles.append(submission.title)
-print("got titles")
-
-# grab comments for the post-ids
-all_comments=[]
-for id in post_ids:
-    # retrieves the submission for the comment id
-    # submission objects contain "comment forests". See documentation
-    #    https://praw.readthedocs.io/en/stable/tutorials/comments.html
-    submission = reddit.submission(id)
-
-    # Get top level, or all comments for posts.
-    #  Don't just blindly grab data. Think about what you need and how you will store and interpret it
-    #  Are you interested in discussions or just top comments? Do you have too much data, or do you
-    #   need more data? How will you group and parse discussions vs. top comments vs. titles?
-    #post_comments = get_top_level_comments(submission, number_comments_to_get=10, replace_more_limit=None)
-    post_comments = get_all_level_comments(submission, replace_more_limit=5)
-    all_comments.append(post_comments)
-print("got comments")
-
-# Save the data to a pandas dataframe. The comments are a list of comments for each id/title
-df = pd.DataFrame({'ids': post_ids, 'titles': post_titles, 'comments': all_comments})
-df.to_csv('reddit_data', sep='|') # "|" may not be the best sep token, since maybe someone types that? you may want to use something more complex (e.g. |*|)
-
+# # grab post ids in the specified subreddits
+# # TODO - you probably want to increase the post_limit from 10. Do you need any limit?
+# post_ids = []
+# for subreddit_name in subreddit_list:
+#     post_ids.extend(get_post_ids(subreddit_name, post_limit=10))
+# print("got post ids")
+#
+# # grab titles of the post-ids
+# post_titles = []
+# for id in post_ids:
+#     submission = reddit.submission(id=id)
+#     post_titles.append(submission.title)
+# print("got titles")
+#
+# # grab comments for the post-ids
+# all_comments = []
+# for id in post_ids:
+#     # retrieves the submission for the comment id
+#     # submission objects contain "comment forests". See documentation
+#     #    https://praw.readthedocs.io/en/stable/tutorials/comments.html
+#     submission = reddit.submission(id)
+#
+#     # Get top level, or all comments for posts.
+#     #  Don't just blindly grab data. Think about what you need and how you will store and interpret it
+#     #  Are you interested in discussions or just top comments? Do you have too much data, or do you
+#     #   need more data? How will you group and parse discussions vs. top comments vs. titles?
+#     # post_comments = get_top_level_comments(submission, number_comments_to_get=10, replace_more_limit=None)
+#     post_comments = get_all_level_comments(submission, replace_more_limit=5)
+#     all_comments.append(post_comments)
+# print("got comments")
+#
+# # Save the data to a pandas dataframe. The comments are a list of comments for each id/title
+# df = pd.DataFrame({'ids': post_ids, 'titles': post_titles, 'comments': all_comments})
+# df.to_csv('reddit_data',
+#           sep='|')  # "|" may not be the best sep token, since maybe someone types that? you may want to use something more complex (e.g. |*|)
